@@ -16,6 +16,7 @@ class Content extends Component {
         this._updateThemeColor()
         store.subscribe(() => this._updateThemeColor())
     }
+    //给 Header.js、Content.js、ThemeSwitch.js 的 componentWillMount 生命周期都加上监听数据变化重新渲染的代码：
     _updateThemeColor () {
         const { store } = this.context
         const state = store.getState()
