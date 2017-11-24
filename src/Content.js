@@ -31,6 +31,6 @@ class Content extends Component {
             </div>
         )
     }
-}
+}// render(){return()}
 
 export default Content
