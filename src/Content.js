@@ -3,7 +3,7 @@ import ThemeSwitch from './ThemeSwitch'
 import PropTypes from 'prop-types'
 class Content extends Component {
     static contextTypes = {
-        store: PropTypes.object
+        store: PropTypes.object // import PropTypes from 'prop-types'
     }
 
     constructor () {
