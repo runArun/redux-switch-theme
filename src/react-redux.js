@@ -15,4 +15,5 @@ export const connect = (mapStateToProps) => (WrappedComponent) => {
     }
 
     return Connect
+    //
 }
