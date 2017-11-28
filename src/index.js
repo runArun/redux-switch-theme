@@ -18,6 +18,8 @@ function createStore (reducer) {
     return { getState, dispatch, subscribe }
 }
 
+
+
 const themeReducer = (state, action) => {
     if (!state) return {
         themeColor: 'red'
@@ -30,16 +32,20 @@ const themeReducer = (state, action) => {
     }
 }
 
-const store = createStore(themeReducer)
+
+
+const store = createStore(themeReducer)  // initialise store
 
 class Index extends Component {
     static childContextTypes = {
         store: PropTypes.object
-    }
+    }     // put store to context of index !
 
     getChildContext () {
         return { store }
     }
+
+    // get store from context.
 
     render () {
         return (
@@ -51,7 +57,4 @@ class Index extends Component {
     }
 }
 
-ReactDOM.render(
-    <Index />,
-    document.getElementById('root')
-)
+ReactDOM.render(<Index />, document.getElementById('root'))
