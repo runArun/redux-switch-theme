@@ -1,6 +1,4 @@
-import React, { Component, PropTypes } from 'react'
-
-export const connect = (mapStateToProps) => (WrappedComponent) => {
+export const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent) => {
     class Connect extends Component {
         static contextTypes = {
             store: PropTypes.object
@@ -8,23 +6,29 @@ export const connect = (mapStateToProps) => (WrappedComponent) => {
 
         constructor () {
             super()
-            this.state = { allProps: {} }
+            this.state = {
+                allProps: {}
+            }
         }
+
         componentWillMount () {
             const { store } = this.context
             this._updateProps()
             store.subscribe(() => this._updateProps())
         }
-        // 我们在 Connect 组件的 constructor 里面初始化了 state.allProps，它是一个对象，
-        // 用来保存需要传给被包装组件的所有的参数。生命周期 componentWillMount 会调用调用 _updateProps 进行初始化，
-        // 然后通过 store.subscribe 监听数据变化重新调用 _updateProps。
 
         _updateProps () {
             const { store } = this.context
-            let stateProps = mapStateToProps(store.getState(), this.props) // 额外传入 props，让获取数据更加灵活方便
+            let stateProps = mapStateToProps
+                ? mapStateToProps(store.getState(), this.props)
+                : {} // 防止 mapStateToProps 没有传入
+            let dispatchProps = mapDispatchToProps
+                ? mapDispatchToProps(store.dispatch, this.props)
+                : {} // 防止 mapDispatchToProps 没有传入
             this.setState({
-                allProps: { // 整合普通的 props 和从 state 生成的 props
+                allProps: {
                     ...stateProps,
+                    ...dispatchProps,
                     ...this.props
                 }
             })
@@ -34,6 +38,5 @@ export const connect = (mapStateToProps) => (WrappedComponent) => {
             return <WrappedComponent {...this.state.allProps} />
         }
     }
-
     return Connect
 }
